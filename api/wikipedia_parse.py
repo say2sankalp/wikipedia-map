@@ -16,6 +16,7 @@ _endpoint = "https://en.wikipedia.org/w/api.php"
 # --- HELPER FUNCTIONS --- #
 
 
+
 def get_page_title(url):
     """Get the title of a page quickly, but inaccurately from a URL. Allows
     both for URLs with a trailing slash and URLs without.
@@ -106,7 +107,17 @@ def get_links(html):
     links = list(set(links))
     return links
 
+def get_links_url(url):
+    
+    html = urlopen("http://en.wikipedia.org"+url)
+    bsobj= BeautifulSoup(html.read())
+    return  bsobj.find("div",{"id":"bodyContent"}).findAll("a",href=re.compile("^(/wiki/)((?!:).)*$"))
 
+'''
+
+links = get_links("/wiki/Attention_deficit_hyperactivity_disorder")
+
+'''
 def first_paragraph_links(pagename):
     """Get the name of each Wikipedia article linked to from the first
     paragraph of the Wikipedia article named <pagename>"""
